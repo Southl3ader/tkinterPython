@@ -56,6 +56,6 @@ lastname_entry.place(x=15, y=140)
 studentid_entry.place(x=15, y=190)
 age_entry.place(x=15, y=240)
 
-register = Button(screen, text="Register", width="30", height="2", command=save_info, bg="grey")
+register = Button(screen, text="Register", width="25", height="2", command=save_info, bg="grey")
 register.place(x=15, y=290)
 screen.mainloop()

@@ -4,7 +4,7 @@ from tkinter import *
 def read_info():
     file = open("user.txt","r")
     i = 0
-    var = [""]
+    var = []
     while True :
         st = file.readline()
         var.insert(i,st)
@@ -33,19 +33,19 @@ def serach_user():
             break
 
 def remove_user():
+    listuser= read_info()
     for i in range(0,len(listuser)):
         j = listuser[i]
         g = j.split()
-        print(g)
+        print(len(listuser))
         if studentidsearch.get() == g[2]:
             listuser.remove(listuser[i])
             break
-    print(listuser)
-    save_list()
+    save_list(listuser)
 
-def  save_list():
+def  save_list(listuser):
     file = open("user.txt", "w")
-    q = len(listuser)-2
+    q = len(listuser)-1
     for i in range(0,q):
         j = listuser[i]
         g = j.split()

@@ -25,11 +25,17 @@ def show():
 
 def serach_user():
     userView.delete(0, END)
-    for i in range(0,len(listuser)):
+    listuser = read_info()
+    q = len(listuser) - 1
+    for i in range(0, q):
         j = listuser[i]
         g = j.split()
         if studentidsearch.get() == g[2]:
             userView.insert(1,g[0]+"   "+g[1]+"   "+g[2]+"   "+g[3])
+            studentName_entry_update.insert(0,g[0])
+            studentLastName_entry_update.insert(0,g[1])
+            studentId_entry_update.insert(0,g[2])
+            studentAge_entry_update.insert(0,g[3])
             break
 
 def remove_user():
@@ -88,7 +94,7 @@ def save_info():
 
 
 screen = Tk()
-screen.geometry("800x600",)
+screen.geometry("1000x600",)
 screen.title("Moshakhasate Daneshjo")
 heading = Label(text="Moshakhasate Daneshjo", bg="skyBlue", fg="black", width="500", height="3")
 heading.pack()
@@ -134,12 +140,54 @@ studentid_entry.place(x=15, y=190)
 age_entry.place(x=15, y=240)
 studentid_entry_search.place(x=15, y=420)
 
+newFirstname_text = Label(text="New Firstname : ",)
+newLastname_text = Label(text="New Lastname : ", )
+neId_text = Label(text="New Student ID : ", )
+newAge_text = Label(text="New Age : ", )
+searchl = Label(text="New Search :",)
+newFirstname_text.place(x=300, y=430)
+newLastname_text.place(x=450, y=430)
+neId_text.place(x=600, y=430)
+newAge_text.place(x=750, y=430)
+
+nameUpdate = StringVar()
+lastNameUpdate = StringVar()
+idUpdate = StringVar()
+ageUpdate = StringVar()
+studentId_entry_update = Entry(textvariable=idUpdate, width="20",)
+studentName_entry_update = Entry(textvariable=nameUpdate, width="20")
+studentLastName_entry_update = Entry(textvariable=lastNameUpdate, width="20")
+studentAge_entry_update = Entry(textvariable=ageUpdate, width="20")
+studentName_entry_update.place(x=300, y=450)
+studentLastName_entry_update.place(x=450, y=450)
+studentId_entry_update.place(x=600, y=450)
+studentAge_entry_update.place(x=750, y=450)
+
+def update_info():
+    newname = nameUpdate.get()
+    newlastname = lastNameUpdate.get()
+    newid = idUpdate.get()
+    newage = ageUpdate.get()
+    newage = str(newage)
+    listuser = read_info()
+    for i in range(0, len(listuser)):
+        j = listuser[i]
+        g = j.split()
+        print(len(listuser))
+        if studentidsearch.get() == g[2]:
+            x = i+1
+            listuser.insert(i,newname+"    "+newlastname+"    "+newid+"    "+newage)
+            listuser.remove(listuser[x])
+            break
+    save_list(listuser)
+
+
 register = Button(screen, text="Register", width="25", height="2", command=save_info, bg="skyBlue")
 register.place(x=15, y=290)
 remove = Button(screen, text="Remove", width="25",height="2",command=remove_user, bg="skyBlue")
 remove.place(x=300, y=500)
 serach = Button(screen, text="Search", width="25",height="2",command=serach_user, bg="skyBlue")
 serach.place(x=15, y=500)
-update = Button(screen, text="Update", width="25",height="2", bg="skyBlue")
+update = Button(screen, text="Update", width="25",height="2",command=update_info, bg="skyBlue")
 update.place(x=500, y=500)
 screen.mainloop()

@@ -14,6 +14,52 @@ def read_info():
     file.close()
     return var
 
+
+def show():
+    listView.delete(0, END)
+    listuser = read_info()
+    o1 = 1
+    for o in range(0, len(listuser)):
+        listView.insert(o1, listuser.__getitem__(o))
+        o1 += 1
+
+def serach_user():
+    userView.delete(0, END)
+    for i in range(0,len(listuser)):
+        j = listuser[i]
+        g = j.split()
+        if studentidsearch.get() == g[2]:
+            userView.insert(1,g[0]+"   "+g[1]+"   "+g[2]+"   "+g[3])
+            break
+
+def remove_user():
+    for i in range(0,len(listuser)):
+        j = listuser[i]
+        g = j.split()
+        print(g)
+        if studentidsearch.get() == g[2]:
+            listuser.remove(listuser[i])
+            break
+    print(listuser)
+    save_list()
+
+def  save_list():
+    file = open("user.txt", "w")
+    q = len(listuser)-2
+    for i in range(0,q):
+        j = listuser[i]
+        g = j.split()
+        file.write(g[0])
+        file.write("    ")
+        file.write(g[1])
+        file.write("    ")
+        file.write(g[2])
+        file.write("    ")
+        file.write(g[3])
+        file.write("\n")
+    file.close()
+    show()
+
 def save_info():
     firstname_info = firstname.get()
     lastname_info = lastname.get()
@@ -38,6 +84,7 @@ def save_info():
     lastname_entry.delete(0, END)
     studentid_entry.delete(0, END)
     age_entry.delete(0, END)
+    show()
 
 
 screen = Tk()
@@ -46,14 +93,16 @@ screen.title("Moshakhasate Daneshjo")
 heading = Label(text="Moshakhasate Daneshjo", bg="skyBlue", fg="black", width="500", height="3")
 heading.pack()
 
-listView = Listbox(width=50,)
-p = read_info()
-print(p)
+listView = Listbox(width=40,)
+listuser = read_info()
 o1 = 1
-for o in range (0,len(p)):
-    listView.insert(o1,p.__getitem__(o))
-    o1+=1
+for o in range(0, len(listuser)):
+    listView.insert(o1, listuser.__getitem__(o))
+    o1 += 1
 listView.place(x=300, y=90)
+
+userView = Listbox(width=40,height=1)
+userView.place(x=15, y=450)
 
 firstname_text = Label(text="Firstname : ",)
 lastname_text = Label(text="Lastname : ", )
@@ -65,8 +114,8 @@ firstname_text.place(x=15, y=70)
 lastname_text.place(x=15, y=120)
 studentid_text.place(x=15, y=170)
 age_text.place(x=15, y=220)
-searchl.place(x=15, y=410)
-searchStudent.place(x=15, y=430)
+searchl.place(x=15, y=380)
+searchStudent.place(x=15, y=400)
 
 firstname = StringVar()
 lastname = StringVar()
@@ -83,14 +132,14 @@ firstname_entry.place(x=15, y=90)
 lastname_entry.place(x=15, y=140)
 studentid_entry.place(x=15, y=190)
 age_entry.place(x=15, y=240)
-studentid_entry_search.place(x=15, y=450)
+studentid_entry_search.place(x=15, y=420)
 
 register = Button(screen, text="Register", width="25", height="2", command=save_info, bg="skyBlue")
 register.place(x=15, y=290)
-remove = Button(screen, text="Remove", width="25",height="2", bg="skyBlue")
+remove = Button(screen, text="Remove", width="25",height="2",command=remove_user, bg="skyBlue")
 remove.place(x=300, y=500)
-serach = Button(screen, text="Search", width="25",height="2", bg="skyBlue")
+serach = Button(screen, text="Search", width="25",height="2",command=serach_user, bg="skyBlue")
 serach.place(x=15, y=500)
-serach = Button(screen, text="Update", width="25",height="2", bg="skyBlue")
-serach.place(x=500, y=500)
+update = Button(screen, text="Update", width="25",height="2", bg="skyBlue")
+update.place(x=500, y=500)
 screen.mainloop()
